@@ -129,6 +129,39 @@ public class AuthController : ControllerBase
         });
     }
 
+    [HttpGet("colleagues")]
+    [Authorize(Roles = "Veterinarian")]
+    public async Task<ActionResult<IEnumerable<VetColleagueDto>>> GetColleagues()
+    {
+        var currentUserIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (currentUserIdString == null) return Unauthorized();
+        var currentUserId = int.Parse(currentUserIdString);
+
+        var currentUser = await _context.Users.FindAsync(currentUserId);
+        if (currentUser == null) return NotFound("Korisnik nije pronađen.");
+
+        // Find all veterinarians with the same first and last name
+        var colleagues = await _context.Users
+            .Include(u => u.Employer)
+            .Where(u => u.Role == UserRole.Veterinarian && 
+                        u.FirstName == currentUser.FirstName && 
+                        u.LastName == currentUser.LastName)
+            .Select(u => new VetColleagueDto
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Email = u.Email,
+                IsCurrentUser = u.Id == currentUserId,
+                EmployerFirstName = u.Employer != null ? u.Employer.FirstName : null,
+                EmployerLastName = u.Employer != null ? u.Employer.LastName : null,
+                EmployerEmail = u.Employer != null ? u.Employer.Email : null
+            })
+            .ToListAsync();
+
+        return Ok(colleagues);
+    }
+
     private string GenerateJwtToken(User user)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));

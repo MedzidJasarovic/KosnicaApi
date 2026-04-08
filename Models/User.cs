@@ -25,7 +25,7 @@ public class User
 
     public string Language { get; set; } = "sr"; // "sr" or "en"
     
-    // For Assistants / Veterinarians working for a Beekeeper
+    // For Assistants / vere
     public int? EmployerId { get; set; }
     public User? Employer { get; set; }
     

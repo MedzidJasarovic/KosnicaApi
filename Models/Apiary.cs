@@ -16,6 +16,9 @@ public class Apiary
     public decimal? Latitude { get; set; }
     public decimal? Longitude { get; set; }
 
+    [Range(1, 10)]
+    public int Area { get; set; } = 10;
+
     // Navigation property
     public ICollection<Hive> Hives { get; set; } = new List<Hive>();
 }

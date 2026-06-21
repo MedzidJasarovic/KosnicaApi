@@ -33,7 +33,8 @@ public class ApiariesController : ControllerBase
                 Name = a.Name,
                 Latitude = a.Latitude,
                 Longitude = a.Longitude,
-                HiveCount = a.Hives.Count
+                HiveCount = a.Hives.Count,
+                Area = a.Area
             })
             .ToListAsync();
     }
@@ -50,7 +51,8 @@ public class ApiariesController : ControllerBase
                 Name = a.Name,
                 Latitude = a.Latitude,
                 Longitude = a.Longitude,
-                HiveCount = a.Hives.Count
+                HiveCount = a.Hives.Count,
+                Area = a.Area
             })
             .FirstOrDefaultAsync();
 
@@ -73,6 +75,7 @@ public class ApiariesController : ControllerBase
             Name = dto.Name,
             Latitude = dto.Latitude,
             Longitude = dto.Longitude,
+            Area = dto.Area,
             UserId = userId
         };
 
@@ -85,7 +88,8 @@ public class ApiariesController : ControllerBase
             Name = apiary.Name,
             Latitude = apiary.Latitude,
             Longitude = apiary.Longitude,
-            HiveCount = 0
+            HiveCount = 0,
+            Area = apiary.Area
         });
     }
 
@@ -104,6 +108,7 @@ public class ApiariesController : ControllerBase
         apiary.Name = dto.Name;
         apiary.Latitude = dto.Latitude;
         apiary.Longitude = dto.Longitude;
+        apiary.Area = dto.Area;
 
         await _context.SaveChangesAsync();
 

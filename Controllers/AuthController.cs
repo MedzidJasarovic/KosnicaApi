@@ -140,7 +140,6 @@ public class AuthController : ControllerBase
         var currentUser = await _context.Users.FindAsync(currentUserId);
         if (currentUser == null) return NotFound("Korisnik nije pronađen.");
 
-        // Find all veterinarians with the same first and last name
         var colleagues = await _context.Users
             .Include(u => u.Employer)
             .Where(u => u.Role == UserRole.Veterinarian && 

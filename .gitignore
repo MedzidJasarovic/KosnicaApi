@@ -62,3 +62,6 @@ ecco/wwwroot/images/*.[Tt][Ii][Ff][Ff]
 ecco/wwwroot/images/*.[Ss][Vv][Gg]
 ecco/wwwroot/images/*.[Ww][Ee][Bb][Pp]
 .env
+
+# Postman
+postman/
